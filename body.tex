@@ -60,7 +60,7 @@ Of these, the COADD images remain roughly fixed in size, ~8 PB (lossless-compres
 while the volume of the other products grow, as the number of observations increase linearly and the number of measurements 
 should increase and N$^{3/2}$ (both due to the number observations and the increase in in depth as the survey progresses).  
 The current models suggest that the raw data (lossless-compressed) will require $\sim 5\times N[yr]$~PB, that the PVI 
-images (with a lossy compression) would require $\sim 13.5\times N[yr]$~PB, while the Parquet/catalog files would 
+images (with a lossy compression) would require $\sim 8\times N[yr]$~PB, while the Parquet/catalog files would 
 require $\sim 8\times N[yr]$~PB (this later case is because the updated sizing model makes a slight over-estimate 
 because it scales based on the final HSC survey products).  In Table~\ref{tab_volume} these are summarized for DR1, DR2, 
 DR(Y), and DR10 with two likely DAC types: Full DAC comprised of all products, and Minimal DAC comprised of only COADD 
@@ -79,11 +79,11 @@ and Catalog products.  Note DR(Y) is given to provide formulaic values for inter
 \hline
  raw        &    5   &   10   &  5$\times$Y    &   50   \\
  COADD      &    8   &    8   &    8           &    8   \\
- PVI        &  13.5  &   27   &  13.5$\times$Y  &  135   \\
+ PVI        &    8   &   16   &  8$\times$Y    &   80   \\
  catalog    &    8   &   16   &  8$\times$Y    &   80   \\
 \hline
  Minimal    &   16   &   24   &  8 + (8$\times$Y) &   88   \\
- Full       &  34.5  &   61   &  8 + (26.5$\times$Y) &  273   \\
+ Full       &   29   &   50   &  8 + (21$\times$Y) &  218  \\
 \hline
 \end{tabular}
 \end{table}
@@ -158,7 +158,7 @@ a release is being finalized (raw+catalog).
 \multicolumn{5}{c}{Full DAC} \\
 \hline
  ambient    &  1.35  &  1.35  &  1.35      &  1.35  \\
- production & 12.95  & 20.23  &  5.67 + (7.28$\times$Y) &  78.48 \\
+ production & 10.00  & 14.33  &  5.67 + (4.34\times$Y) &  49.07 \\
  release    & 27.24  & 53.13  &  1.35 + (25.89$\times$Y) & 260.26 \\
 \hline
 \end{tabular}
