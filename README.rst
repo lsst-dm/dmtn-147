@@ -1,7 +1,7 @@
 .. image:: https://img.shields.io/badge/dmtn--147-lsst.io-brightgreen.svg
    :target: https://dmtn-147.lsst.io
-.. image:: https://travis-ci.com/lsst-dm/dmtn-147.svg
-   :target: https://travis-ci.com/lsst-dm/dmtn-147
+.. image:: https://github.com/lsst-dm/dmtn-147/workflows/CI/badge.svg
+   :target: https://github.com/lsst-dm/dmtn-147/actions/
 
 ##########################
 LDF Bulk Download Services
