@@ -5,10 +5,9 @@ Facility (USDF).  Throughout the foundation documents Bulk Transfer is used to d
 through which the data comprising the LSST Data Releases (DRs) will be distributed to Data Access 
 Centers (DACs).  This document is organized as follows: Section~\ref{sec_reqs} summarizes the 
 current formal requirements found within the foundation documents, Section~\ref{sec_scale}
-draws upon the current sizing model to set the size of the datasets that must be handled by 
-Bulk Transfer, Section~\ref{sec_method} describes the current methods being evaluated to manage 
-the actual data movement, and Section~\ref{sec_users} briefly describes what individual users 
-and groups can expect to be available.
+draws upon the current sizing model to set the size of the data sets that must be handled by 
+Bulk Transfer, and Section~\ref{sec_method} describes the current methods being evaluated to manage 
+the actual data movement.
 
 \section{The Requirements\label{sec_reqs}}
 
@@ -52,27 +51,38 @@ and
 Specification: All releases of the DMS catalog archive shall be maintained and preserved 
 in a publicly accessible state for the entire operational life of the LSST observatory.\\
 Discussion: The scientific intent is satisfied by keeping data products from the current 
-DRP release and the one prior available with low-latency, in a form readily queryable by 
+DRP release and the one prior available with low-latency, in a form readily query-able by 
 the public. Earlier releases may be available from deep-store with potentially high latency, 
 for bulk download by users.
 \end{quote}
 
-The actual data volume that will need to be moved/replicated would encompass all Alert 
-Processing (AP) and Data Release Products (DRP) and the locations that would receive such bulk 
-downloads would be the US Data Archive Center (DAC), the IN2P3 DAC (France), and the Chilean DAC 
-(the latter of which is specified to hold roughly 10\% of a data release... {\bf CHECK}).  
-It is anticipated that further agreements may expand the number of DAC's but the necessary 
-infrastructure (e.g., networking/bandwidth) to support such centers would be part of those 
-agreements.  Bulk Transfer for any Data Release is also meant to be possible for any third 
-party with the proviso that the cost for bandwidth and effort needed to accomplish such 
-transfers would fall to such parties.
+The actual data volume that will need to be moved/replicated would encompass the raw data,
+Alert Production (AP) results and the Data Release Products (DRP).  Currently, the locations that
+would receive bulk downloads are the US Data Archive Center (DAC), the IN2P3 DAC (France), and 
+the Chilean DAC.  It is anticipated that further agreements may expand the number of DAC's but 
+the necessary infrastructure (e.g., networking/bandwidth) to support such centers would be part 
+of those agreements.  Bulk Transfer for any publicly-accessible Data Release (i.e. after the 
+proprietary period) is to be possible 
+for any third party with the proviso that the cost for bandwidth and effort needed to accomplish 
+such transfers would fall to such parties and with the understanding that the source of such
+archival releases would likely be from long-term storage (e.g. tape archive or cloud resource) that might
+further limit the rate the data could be provided.
 
 
 \section{Data Volume\label{sec_scale}}
 
-The volume of data within a DR can be estimated based on the inputs to the updated sizing 
-model \citedsp{DMTN-135}.  For the purposes of this document we take a DR to be comprised 
-of a set of COADD images and Parquet files (i.e. catalogs).  In addition, the raw images 
+Throughout this section, the estimates used are based upon the updated sizing model \citedsp{DMTN-135}.
+
+The volume of data generated in Alert Production that would be made available to the DACs
+consists of the Alert Production Data Base.  The APDB size is estimated as 24 TB, representing
+a 12 month store of Alerts.  Therefore, the simple estimate is that this would change by $\sim$70~GB
+per night.  As this is much smaller than the raw and DRP volumes it can be ignored except 
+for questions that surround how the difference images are made available. {\bf (Need to understand
+whether more than APDB is promised; for example difference images, cutouts? and whether the DRs 
+contain separate, after-the-fact, reprocessed difference imaging analysis/products).}
+
+For the purposes of this document we take the DR to be comprised of a set of COADD images 
+and Parquet files (i.e. catalogs).  In addition, the raw images 
 and Processed Visit Images (PVI) may optionally be retained as part of a DAC's holdings.  
 Of these, the COADD images remain roughly fixed in size, ~8 PB (lossless-compressed) from 
 one release to another, while the volume of the other products grow, as the number of 
@@ -111,7 +121,7 @@ formulaic values for intermediate releases in each of the Y release years.
 
 
 The worst case scenario is that all data would need to be moved from a central site to a DAC.  
-Assuming further that this needs to be accomplished in a 1-month time frame, the necssary bandwidth 
+Assuming further that this needs to be accomplished in a 1-month time frame, the necessary bandwidth 
 (assuming no downtime) needed to support transfer is given by: 
 $$ R[Gb/s] = S \times V[PB] \times 8 [b/B] \times 1024^2 / 30 \times 24 \times 3600 = 3.2 \times S \times V[PB] / T[months] $$.
 Where $R$ is the necessary bandwidth to support data transfer to a data center, $S$ is the number 
@@ -122,14 +132,14 @@ be 110 Gb/s, rising to 880 Gb/s per site for DR10.
 Clearly, the above is wasteful.  A more reasonable scenario would assume that DACs and other 
 data centers must be identified well before a release (or in fact before release processing begins).
 Still ignoring that many DACs might also participate in the data reduction and that the data comes 
-from a central source (the USDF), it should be expected that the raw data can be transfered as
-it is acquired, and that the COADD and PVI images can like-wise be transfered while a DRP 
+from a central source (the USDF), it should be expected that the raw data can be transferred as
+it is acquired, and that the COADD and PVI images can like-wise be transferred while a DRP 
 campaign is underway.  The situation for the final catalogs is less clear.  In the worst case, 
 that where the catalog data must be held until final assembly, calibration, normalization, and 
 vetting have occurred, the dissemination of final catalog products would still occur in a burst
 at the end of the DRP campaign.  Therefore, the data transfer of the raw data would be spread 
-over the course of a year, the PVI and COADD images would be transfered over the course of 
-$\sim$6 months, and the final catalogs transfered in the month prior to the release.  This results 
+over the course of a year, the PVI and COADD images would be transferred over the course of 
+$\sim$6 months, and the final catalogs transferred in the month prior to the release.  This results 
 in 3 different rates summarized in Table~\ref{tab_rate} where ``ambient'' refers to periods when 
 only raw data is being acquired, ``production'' refers to periods where DRP is ongoing 
 (raw+COADD+PVI), and ``release'' refers to periods where a release is being finalized 
@@ -137,7 +147,7 @@ only raw data is being acquired, ``production'' refers to periods where DRP is o
 
 
 \begin{table}[!ht]
-\caption{Bandwith Needs per Data Access Site} 
+\caption{Bandwidth Needs per Data Access Site} 
 \label{tab_rate}
 \footnotesize
 \centering
@@ -162,19 +172,19 @@ only raw data is being acquired, ``production'' refers to periods where DRP is o
 \end{tabular}
 \end{table}
 
-The only major downside to much of the data distribution occuring throughout the DRP campaign is 
+The only major downside to much of the data distribution occurring throughout the DRP campaign is 
 that it will likely entail that any re-processing deemed necessary to fix problems during DRP 
 would also require more data transfer of those amended results.  Furthermore, it would require 
 that mechanisms exists to prune the holdings within the DAC as new results replace those from the 
 prior problematic processing attempts.  
 
-One futher econimization is possible, that would entail that catalog results also are part 
+One further econimization is possible, that would entail that catalog results also are part 
 of data distribution which occurs within the ``production'' phase.  The caveat being that any 
-amendations that would have occurred during the final assembly would need to occur at each of 
+emendations that would have occurred during the final assembly would need to occur at each of 
 the data facilities.  Such decentralized processes are not specifically envisaged in the 
 current data management and DAC system (where a US and Chilean DAC are the only mandated centers).
-While such an addition is not neccesary in the first years of operations it should be considered 
-that the development of such may be necessary in the later years of the projet.
+While such an addition is not necessary in the first years of operations it should be considered 
+that the development of such may be necessary in the later years of the project.
 
 
 \section{Data Curation/Replication Strategy\label{sec_method}}
@@ -184,26 +194,29 @@ Within the current project the DBB endpoints include the USDF (USDAC), the Chile
 CC-IN2P3 (in France).  Currently the USDF and CC-IN2P3 plan to maintain a complete set of files 
 and hence act as a backup to all sites.  The current method for replication/tracking uses Rucio.
 Any further computation sites that are identified within the project would also act as DBB endpoints
-but are not necessarily required to maintain full data sets.
+but are not necessarily required to maintain full data sets. 
 
 Rucio was developed to enable data management with the CERN/ATLAS project and successfully 
 manages the data movement and replication needs within the ATLAS Tiered centers.  This is 
-accomplished by connecting a database with a datastore.  Traditional files are assigned 
-Data Identifiers and the further inter-relationships are defined as datasets (groups of 
-files), containers (groups of datasets or other containers).   Data replication and management 
+accomplished by connecting a database with a data store.  Traditional files are assigned 
+Data Identifiers and the further inter-relationships are defined as data sets (groups of 
+files), containers (groups of data sets or other containers).   Data replication and management 
 at different sites are then maintained through rules that use the database to define the needed
 data movement and curation among sites.  The actual transfer mechanism used within Rucio 
 is not fixed and there are current efforts to integrate modern parallel methods 
-(e.g., Big Data Express).  
+(e.g., \href{https://bigdataexpress.fnal.gov}{Big Data Express}).  
 
 Within the LSST project the proposed method to use Rucio is to link data access within the context 
 of the LSST Gen3 Butler through a Rucio Data Identifier (DID).  Thus, data management/replication 
 between sites would be implemented through Rucio.  While Rucio is capable of storing limited metadata 
 and provenance, the current risk is that both a Rucio system and LSST Butler would need to be 
-maintained alongside one another, thus imposing two sources of risk/effort.  First, where 
-information/communication between the two systems are necesssary, software services would be 
-necessary, and second, the natural evolution of both the LSST software and Rucio software will 
-require long-term effort to maintain the interoperability of the two.
+maintained alongside one another, thus imposing two software services that need to be synchronized.  
+In other words, for the data transferred to a remote site to be more than a large file cache, the 
+appropriate Butler entries would also have to be present, as well as a utility to re-establish 
+any linkages among DB/Butler, Rucio, and the file store.  Moreover, sites engaged in both DRP and 
+data serving would require separate 
+means (e.g. Butler repositories and possibly file-stores) for maintaining files/metadata that are 
+part of production and those that are part of a release.  
 
 The most economical way to provide bulk transfer to sites not engaged in LSST computation is to 
 extend the utilization of Rucio to replicate subsets of the processing products to such sites as 
@@ -218,19 +231,13 @@ production is on-going.  Therefore it should be required that:
 
 \subsection{Current Questions/Concerns}
 While the replication of files is relatively straight-forward, it is as yet undetermined how to deal
-with questions about the deletion/replacement of data.  Also, the Butler infrastructure requires that 
-not only data be replicated but the subset of the Butler DB be replicated.  Currently, each site 
-maintaining a DR would also require someone to either provide their own backends (to transform the data 
+with questions about the deletion/replacement of re-processed results.  Also, the Butler infrastructure 
+requires that not only data be replicated but the subset of the Butler DB be replicated.  Currently, each 
+site maintaining a DR would also require someone to either provide their own back ends (to transform the data 
 to their own serving infrastructure) or duplicate project infrastructure (e.g. qserv instances) in order
 to serve data.
 
 
-\section{Support for Non-DAC Data Download\label{sec_users}}
-
-This section is a place holder to express the options/scales for data download for users/projects.
-A range of contingencies that should be considered is the availability of data to compute resources outside of DACs.
-For instance: 1) to DESC and DOE compute resources, 2) to users groups with access to EXSEDE and OSG 
-resources, 3) to users, with and without proprietary access, and compute/storage resources at their own discretion.
 
 
 
