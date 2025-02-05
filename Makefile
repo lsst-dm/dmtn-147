@@ -11,7 +11,7 @@ ifneq "$(GITSTATUS)" ""
 	GITDIRTY = -dirty
 endif
 
-export TEXMFHOME ?= lsst-texmf/texmf
+export TEXMFHOME = lsst-texmf/texmf
 
 # Add aglossary.tex as a dependancy here if you want a glossary
 $(DOCNAME).pdf: $(tex) meta.tex local.bib
